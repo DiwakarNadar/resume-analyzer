@@ -11,8 +11,18 @@ Built with **React (Vite)** frontend and **Django REST Framework** backend, powe
 ---
 
 ## 📸 Screenshots
+### Home Page
+![Home Page](images/home.png)
 
+### Resume ATS
+![Resume ATS](images/resume1.png)
+![Resume ATS](images/resume2.png)
 
+### Job Description VS Resume
+![JD](images/resumejd1.png)
+![JD](images/resumejd2.png)
+
+---
 ## 🌟 Features
 
 ### ✅ Resume ATS Score (No JD)
