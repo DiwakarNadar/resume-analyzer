@@ -1,0 +1,26 @@
+.score-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 20px auto;
+}
+
+.score-ring svg circle {
+  fill: none;
+  stroke-width: 10;
+  stroke: #e5e7eb;
+}
+
+.score-ring svg circle:last-child {
+  stroke: #22c55e;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.score-ring span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: bold;
+}

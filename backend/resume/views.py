@@ -50,25 +50,19 @@ class ResumeOnlyATSView(APIView):
         except Resume.DoesNotExist:
             return Response({"error": "Resume not found"}, status=404)
 
-        # 1️⃣ Extract if missing
+        # 1️⃣ Extract resume text
         if not resume.extracted_text:
-            try:
-                signed_url = generate_signed_url(resume.file, expires_in=120)
-                resume.extracted_text = extract_text_from_file(signed_url)
-                resume.save(update_fields=["extracted_text"])
-            except Exception as e:
-                return Response(
-                    {"error": f"Text extraction failed: {str(e)}"},
-                    status=400
-                )
+            signed_url = generate_signed_url(resume.file, expires_in=120)
+            resume.extracted_text = extract_text_from_file(signed_url)
+            resume.save(update_fields=["extracted_text"])
 
         # 2️⃣ Deterministic ATS
         base_result = calculate_resume_ats(resume.extracted_text)
 
-        # 3️⃣ RAG grounding
+        # 3️⃣ RAG insights
         rag_result = run_rag(resume.extracted_text, None)
 
-        # 4️⃣ LLM explanation (NON-BLOCKING)
+        # 4️⃣ LLM feedback (ALWAYS OBJECT)
         try:
             llm_feedback = run_llm(
                 resume_only_prompt(
@@ -77,7 +71,11 @@ class ResumeOnlyATSView(APIView):
                 )
             )
         except Exception:
-            llm_feedback = "LLM feedback unavailable at the moment."
+            llm_feedback = {
+                "summary": ["AI feedback unavailable"],
+                "strengths": [],
+                "improvements": []
+            }
 
         final_response = {
             **base_result,
@@ -94,8 +92,9 @@ class ResumeOnlyATSView(APIView):
 
 class ResumeJdATSView(APIView):
     def post(self, request, resume_id):
-        jd = request.data.get("job_description")
-        if not jd:
+        jd_text = request.data.get("job_description")
+
+        if not jd_text:
             return Response({"error": "Job description required"}, status=400)
 
         try:
@@ -103,39 +102,37 @@ class ResumeJdATSView(APIView):
         except Resume.DoesNotExist:
             return Response({"error": "Resume not found"}, status=404)
 
-        # 1️⃣ Extract if missing
+        # 1️⃣ Extract resume text if missing
         if not resume.extracted_text:
-            try:
-                signed_url = generate_signed_url(resume.file, expires_in=120)
-                resume.extracted_text = extract_text_from_file(signed_url)
-                resume.save(update_fields=["extracted_text"])
-            except Exception as e:
-                return Response(
-                    {"error": f"Text extraction failed: {str(e)}"},
-                    status=400
-                )
+            signed_url = generate_signed_url(resume.file, expires_in=120)
+            resume.extracted_text = extract_text_from_file(signed_url)
+            resume.save(update_fields=["extracted_text"])
 
-        # 2️⃣ Deterministic ATS
+        # 2️⃣ Deterministic ATS (keywords + skills)
         base_result = calculate_jd_ats(
             resume_text=resume.extracted_text,
-            jd_text=jd,
+            jd_text=jd_text,
         )
 
-        # 3️⃣ RAG grounding
-        rag_result = run_rag(resume.extracted_text, jd)
+        # 3️⃣ RAG semantic matching
+        rag_result = run_rag(resume.extracted_text, jd_text)
 
-        # 4️⃣ LLM explanation (NON-BLOCKING)
+        # 4️⃣ LLM feedback (safe)
         try:
             llm_feedback = run_llm(
                 resume_jd_prompt(
                     resume.extracted_text,
-                    jd,
+                    jd_text,
                     rag_result,
                     base_result["ats_score"]
                 )
             )
         except Exception:
-            llm_feedback = "LLM feedback unavailable at the moment."
+            llm_feedback = {
+                "summary": ["AI feedback unavailable"],
+                "strengths": [],
+                "improvements": []
+            }
 
         final_response = {
             **base_result,
@@ -145,7 +142,6 @@ class ResumeJdATSView(APIView):
 
         resume.ats_score = base_result["ats_score"]
         resume.analysis_result = final_response
-        resume.save()
+        resume.save(update_fields=["ats_score", "analysis_result"])
 
         return Response(final_response)
-

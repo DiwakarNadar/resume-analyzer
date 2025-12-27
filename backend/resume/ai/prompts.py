@@ -1,40 +1,60 @@
 def resume_only_prompt(resume_text, ats_score):
     return f"""
-You are an ATS expert.
-
-Resume Text:
-{resume_text[:1500]}
+You are an ATS resume reviewer.
 
 ATS Score: {ats_score}
 
-Explain:
-1. Why this score makes sense
-2. Strengths of the resume
-3. Actionable improvements
+Resume summary:
+{resume_text[:600]}
 
-Do not invent experience.
+Give feedback in EXACTLY this format:
+
+SUMMARY:
+- point
+- point
+- point
+
+STRENGTHS:
+- point
+- point
+
+IMPROVEMENTS:
+- point
+- point
+
+Rules:
+- Max 1 sentence per point
+- No extra text
 """
+
 
 
 def resume_jd_prompt(resume_text, jd_text, semantic_result, ats_score):
     return f"""
 You are an ATS evaluator.
 
+Resume (partial):
+{resume_text[:1200]}
+
 Job Description:
-{jd_text[:1000]}
+{jd_text[:1200]}
 
-Resume:
-{resume_text[:1500]}
-
-Semantic Match Result:
+Semantic Match:
 {semantic_result}
 
 ATS Score: {ats_score}
 
-Explain:
-1. Fit for the role
-2. Gaps based on JD
-3. What to improve
+Return STRICT JSON only:
 
-Do not hallucinate skills.
+{{
+  "summary": [3 short points],
+  "strengths": [2 short points],
+  "improvements": [2 actionable points]
+}}
+
+Rules:
+- One sentence per point
+- No markdown
+- No explanations outside JSON
 """
+

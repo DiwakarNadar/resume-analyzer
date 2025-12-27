@@ -1,0 +1,326 @@
+/* ===============================
+   GLOBAL RESET & VARIABLES
+================================ */
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --card-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --primary: #00e5ff;
+  --secondary: #7cffcb;
+  --danger: #ff6b6b;
+  --text-light: #f5f7fa;
+  --text-muted: #cfd8dc;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ===============================
+   PAGE CONTAINER
+================================ */
+.resume-ats-container {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+/* ===============================
+   CARD (GLASS EFFECT)
+================================ */
+.card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--card-bg);
+  backdrop-filter: blur(18px);
+  border-radius: 22px;
+  padding: 36px 34px;
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    inset 0 0 0.5px rgba(255, 255, 255, 0.4);
+  color: var(--text-light);
+}
+
+/* ===============================
+   TITLES
+================================ */
+.title {
+  font-size: 2.3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+/* ===============================
+   UPLOAD BOX
+================================ */
+.upload-box {
+  margin-bottom: 22px;
+}
+
+.upload-box input[type="file"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px dashed var(--glass-border);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-box input[type="file"]:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ===============================
+   BUTTON
+================================ */
+.generate-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.35);
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===============================
+   ERROR
+================================ */
+.error {
+  margin-top: 14px;
+  color: var(--danger);
+  text-align: center;
+}
+
+/* ===============================
+   LOADER
+================================ */
+.loader {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===============================
+   RESULT CONTAINER
+================================ */
+.result {
+  margin-top: 40px;
+}
+
+.result h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+   SCORE CIRCLE
+================================ */
+.score-circle {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 30px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--primary) calc(var(--score) * 1%),
+    rgba(255, 255, 255, 0.2) 0
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop 0.6s ease;
+}
+
+.score-circle span {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #000;
+  background: #fff;
+  border-radius: 50%;
+  width: 95px;
+  height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   SKILLS
+================================ */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.skill-chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--glass-border);
+  font-size: 0.85rem;
+  animation: floatIn 0.5s ease forwards;
+}
+
+/* ===============================
+   AI FEEDBACK
+================================ */
+.ai-feedback {
+  margin-top: 30px;
+}
+
+.ai-feedback h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: var(--secondary);
+}
+
+.ai-feedback ul {
+  padding-left: 18px;
+}
+
+.ai-feedback li {
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+.slide-in {
+  animation: slideIn 0.7s ease;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+  .card {
+    padding: 28px 22px;
+  }
+
+  .title {
+    font-size: 1.9rem;
+  }
+
+  .score-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-circle span {
+    width: 85px;
+    height: 85px;
+    font-size: 2.3rem;
+  }
+}
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #a8dadc;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  align-self: flex-end;
+  transition: color 0.2s ease;
+  width: 100px;
+  text-align: left;
+}
+
+.back-btn:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}

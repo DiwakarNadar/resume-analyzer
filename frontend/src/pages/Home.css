@@ -1,0 +1,76 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #ffffff;
+}
+
+.home-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+  animation: fadeDown 0.8s ease;
+}
+
+.card-container {
+  display: flex;
+  gap: 30px;
+}
+
+/* Card Buttons */
+.home-card {
+  width: 280px;
+  padding: 30px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  animation: fadeUp 0.8s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.home-card h3 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.home-card p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Animations */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
