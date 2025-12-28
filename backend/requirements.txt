@@ -4,6 +4,7 @@ django-cors-headers==4.4.0
 python-dotenv==1.0.1
 gunicorn==22.0.0
 whitenoise==6.7.0
+dj-database-url==2.1.0
 
 psycopg2-binary==2.9.9
 
@@ -28,3 +29,4 @@ requests==2.32.3
 supabase==2.4.6
 postgrest==0.16.8
 storage3==0.7.7
+
