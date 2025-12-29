@@ -9,6 +9,7 @@ An AI-powered **Resume Analyzer** that helps candidates:
 Built with **React (Vite)** frontend and **Django REST Framework** backend, powered by **RAG + LLM (OpenRouter)**.
 
 ---
+![Deployed Link](https://resume-analyzer-phi-tawny.vercel.app/)
 
 ## 📸 Screenshots
 ### Home Page
